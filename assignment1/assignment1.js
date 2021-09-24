@@ -12,9 +12,11 @@ function setup() {
   var canvas = document.getElementById("myCanvas");
   var slider1 = document.getElementById("slider1");
   var slider2 = document.getElementById("slider2");
+  var slider3 = document.getElementById("slider3");
   //default sliders to be on opposite sides
   slider1.value = 0;
-  slider2.value = 600;
+  slider2.value = 400;
+  slider3.value = 400;
 
   /**
    * Draws all graphic components of the scene
@@ -24,7 +26,8 @@ function setup() {
     canvas.width = canvas.width; // reset canvas
     //assign graphics to slider values
     var crabdx = slider1.value;
-    var sharkdx = slider2.value;
+    var shark1dx = slider2.value;
+    var shark2dx = slider3.value;
     //setup line
     context.lineWidth = 1;
     context.strokeStyle = "black";
@@ -189,18 +192,21 @@ function setup() {
     drawCrab(); // draws crab
     context.restore(); //revert to no transformation for the shark element
     context.save();
-    context.translate(sharkdx, 0); // translate shark based on slider position
-    drawShark(); // draws shark
-    context.restore(); // revert to no transformation for rock element
-    context.save();
-    context.scale(-1, 1);
-    drawShark();
+    context.translate(shark1dx, -100); //translte shark based on slider position
+    context.scale(-1, 1); // flip shark(reflect0)
+    drawShark(); //draw first shark
     context.restore();
+    context.save();
+    context.translate(shark2dx, 50); // translate shark based on slider position
+    drawShark(); // draw second shark
+    context.restore(); // revert to no transformation for rock element
+
     drawRock(); // draws rock in the foreground, so the crab hides behind it
   }
   //add event listeners for redraw
   slider1.addEventListener("input", draw);
   slider2.addEventListener("input", draw);
+  slider3.addEventListener("input", draw);
   draw(); // draws everything
 }
 window.onload = setup; // calls setup on window loading
